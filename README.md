@@ -449,7 +449,7 @@ I've defined a `<section>` tag that breaks the pages into groups. Now let's jump
 
 We'll make the web site as several XML files. This is a design choice. We could also make the site as a single large XML file. It's a trade-off between ease of use (a single file is easier in smaller cases) and scalability (it's not practical to edit a large site with hundreds of pages as a single file).
 
-To start with, we'll define the overall site like this:
+To start with, we'll define the overall site like this (in file `site.xml`):
 
     <?xml version = "1.0" ?>
     <site
@@ -467,7 +467,7 @@ To start with, we'll define the overall site like this:
 
 Note the first line, which defines the file as XML, and the `script` tag, which tells GSL what script to run to process the data. We've defined three pages. Let's write very a simple version of each of these:
 
-Next, we will write three more short XML files as shown below. First the index page:
+Next, we will write three more short XML files as shown below. First the index page (in file `index.xml`):
 
     <page
         name = "index"
@@ -484,7 +484,7 @@ Next, we will write three more short XML files as shown below. First the index p
     </content>
     </page>
 
-Next, the fruit page:
+Next, the fruit page (in file `fruit.xml`):
 
     <page
         name = "fruit"
@@ -501,7 +501,7 @@ Next, the fruit page:
     </content>
     </page>
 
-and last the vegetable page:
+and last the vegetable page (in file `vegetables.xml`):
 
     <page
         name = "vegetables"
@@ -519,7 +519,7 @@ and last the vegetable page:
     </content>
     </page>
 
-Finally, here is the first draft of the web generation script. It does not produce anything, it simply loads the web site data into an XML tree and then saves this (in a file called `root.xml`) that we can look at to see what live data the script is actually working with:
+Finally, here is the first draft of the web generation script. It does not produce anything, it simply loads the web site data into an XML tree and then saves this (in a file called `root.xml`) that we can look at to see what live data the script is actually working with. Save script below in file `sitegen_1.gsl`:
 
     .###  Since we run the script off the XML file, it starts in
     .###  template mode.
