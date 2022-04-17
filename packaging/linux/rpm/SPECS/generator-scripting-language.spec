@@ -7,7 +7,7 @@ Version:	4.1.5
 Release:	%{revision}%{?dist}
 License:	GPL-3.0-or-later
 Group:		Libraries
-Source0:	http://download.zeromq.org/gsl-%{version}.tar.gz
+Source0:	http://download.zeromq.org/%{name}-%{version}.tar.gz
 URL:		http://zeromq.org/
 BuildRequires:	pcre-devel
 
@@ -22,7 +22,7 @@ to generate database schema definitions, user interfaces, reports, system
 administration tools and much more.
 
 %prep
-%setup -q -n gsl-%{version}
+%setup -q -n %{name}-%{version}
 %build
 make %{?_smp_mflags}
 %install
