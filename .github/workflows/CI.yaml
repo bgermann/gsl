@@ -1,0 +1,37 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            BUILD_TYPE: default
+            PACKAGES: libpcre3-dev
+    env:
+# Set CI_TIME: true to enable build-step profiling
+# Set CI_TRACE: true to enable shell script tracing
+# Set CI_CONFIG_QUIET: true to enable "configure --quiet" (only report stderr)
+# Set CI_REQUIRE_GOOD_GITIGNORE: false to NOT fail if "git status -s" is not clean
+# Set CI_REQUIRE_GOOD_CLANG_FORMAT: true to fail if "clang-format" check is not clean
+      CI_TIME: false
+      CI_TRACE: false
+      CI_CONFIG_QUIET: true
+      CI_REQUIRE_GOOD_GITIGNORE: false
+      platform: ${{ matrix.platform }}
+      configuration: ${{ matrix.configuration }}
+      BUILD_TYPE: ${{ matrix.BUILD_TYPE }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        path: gsl
+    - name: build
+      shell: bash
+      working-directory: gsl
+      run: ./ci_build.sh
