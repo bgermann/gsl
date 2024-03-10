@@ -59,3 +59,5 @@ This package contains examples to get started with gsl.
 %doc doc/examples/*
 
 %changelog
+* Wed Dec 31 2014 GSL Developers <zeromq-dev@lists.zeromq.org
+- Initial packaging.
