@@ -51,7 +51,8 @@ CLASS_DESCRIPTOR
         regexp_functions, tblsize (regexp_functions) };
 
 
-#include <pcre.h>
+#define PCRE2_CODE_UNIT_WIDTH 8
+#include <pcre2.h>
 
 
 static int
@@ -86,13 +87,17 @@ regexp_match (int argc, RESULT_NODE **argv, void *item, RESULT_NODE *result, THR
   {
     GGCODE_TCB
         *tcb = gsl_thread-> tcb;
-    pcre
+    pcre2_code
         *re;
+    pcre2_match_data
+        *md;
     char
         *error;
-    int 
+    int
+        errcode;
+    size_t
         erroffset;
-    int 
+    size_t
         *ovector;
     int
         oveccount,
@@ -103,47 +108,50 @@ regexp_match (int argc, RESULT_NODE **argv, void *item, RESULT_NODE *result, THR
     VALUE
         value;
 
-    re = pcre_compile (string_value (&pattern-> value),
-                       0,
-                       (const char **) &error,
-                       &erroffset,
-                       NULL);
+    re = pcre2_compile ((PCRE2_SPTR) string_value (&pattern-> value),
+                        PCRE2_ZERO_TERMINATED,
+                        0,
+                        &errcode,
+                        &erroffset,
+                        NULL);
     if (! re)
       {
+        PCRE2_UCHAR buf[120];
+
+        pcre2_get_error_message (errcode, buf, sizeof(buf));
         snprintf (object_error, LINE_MAX,
                   "Regular expression pattern error: %s\n%s\n%*c",
-                  error,
+                  buf,
                   pattern-> value. s,
-                  erroffset + 1, '^');
+                  (int) erroffset + 1, '^');
         return -1;
       }
 
-    rc = pcre_fullinfo (re,
-                        NULL,
-                        PCRE_INFO_CAPTURECOUNT,
-                        &oveccount);
+    rc = pcre2_pattern_info (re,
+                             PCRE2_INFO_CAPTURECOUNT,
+                             &oveccount);
     oveccount = (oveccount + 1) * 3;
-    ovector   = mem_alloc (oveccount * sizeof (int));
+    md        = pcre2_match_data_create (oveccount, NULL);
 
     string_value (&subject-> value);
-    rc = pcre_exec (re,
-                    NULL,
-                    subject-> value. s,
-                    (int) strlen (subject-> value. s),
-                    0,
-                    0,
-                    ovector,
-                    oveccount);
+    rc = pcre2_match (re,
+                      (PCRE2_SPTR) subject-> value. s,
+                      strlen (subject-> value. s),
+                      0,
+                      0,
+                      md,
+                      NULL);
 
-    (pcre_free) (re);
+    (pcre2_code_free) (re);
+    ovector = pcre2_get_ovector_pointer (md);
 
-    if (rc == PCRE_ERROR_NOMATCH)
+    if (rc == PCRE2_ERROR_NOMATCH)
         rc = 0;
     else if (rc < 0)
       {
         snprintf (object_error, LINE_MAX,
                  "Regular expression matching error: %d", rc);
-        mem_free (ovector);
+        pcre2_match_data_free (md);
         return -1;
       }
     else if (rc == 1)
@@ -179,7 +187,7 @@ regexp_match (int argc, RESULT_NODE **argv, void *item, RESULT_NODE *result, THR
               {
                 strncpy (object_error, error, LINE_MAX);
                 mem_free (value.s);
-                mem_free (ovector);
+                pcre2_match_data_free (md);
                 return -1;
               }
             destroy_value (& value);
@@ -187,7 +195,7 @@ regexp_match (int argc, RESULT_NODE **argv, void *item, RESULT_NODE *result, THR
         i++;
       }
 
-    mem_free (ovector);
+    pcre2_match_data_free (md);
   }
 
     return 0;  /*  Just in case  */

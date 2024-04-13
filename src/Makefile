@@ -50,9 +50,7 @@ LIB = .a
 EXE =
 DBG =
 CC = ./c -q
-export CCLIBS = -lpcre
-
-CPPFLAGS ?= -I/usr/include/pcre
+export CCLIBS = -lpcre2-8
 
 # Reset the suffixes that will be considered to just our own list.
 #
