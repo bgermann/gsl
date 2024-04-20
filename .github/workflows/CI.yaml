@@ -13,7 +13,7 @@ jobs:
         include:
           - os: ubuntu-latest
             BUILD_TYPE: default
-            PACKAGES: libpcre3-dev
+            PACKAGES: libpcre2-dev
     env:
 # Set CI_TIME: true to enable build-step profiling
 # Set CI_TRACE: true to enable shell script tracing

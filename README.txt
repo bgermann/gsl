@@ -52,7 +52,7 @@ The scripts that runs docker inside the container will place the script director
 
 Dependencies:
 
-* pcre package (e.g. libpcre3-dev)
+* pcre2 package (e.g. libpcre2-dev)
 
 To build from git on a UNIX-like box, and install into `/usr/local/bin`:
 
@@ -73,11 +73,11 @@ To show command-line help:
 
 Install GNU Make and GNU Compiler. For example, with `pkg`, `pkg install gmake gcc`. Then edit `src/Makefile` and add "-lm" to `src/Makefile` where you see CCLIBS configured. It may look similar to:
 
-    export CCLIBS = -lpcre
+    export CCLIBS = -lpcre2-8
 
 You want to add the math library:
 
-    export CCLIBS = -lpcre -lm
+    export CCLIBS = -lpcre2-8 -lm
 
 Cd to `src` and run:
 
@@ -97,7 +97,7 @@ Install git:
 
 Install gcc's dependencies:
 
-    apt-cyg install wget gcc-g++ make diffutils libmpfr-devel libgmp-devel libmpc-devel libpcre-devel libcrypt-devel
+    apt-cyg install wget gcc-g++ make diffutils libmpfr-devel libgmp-devel libmpc-devel libpcre2-devel libcrypt-devel
 
 Download, Build and Install gcc:
 
@@ -124,9 +124,9 @@ Finally build gsl:
 
 #### Building on MacOS 
 
-The modern way of building on MacOS is to make sure you have pcre installed and use brew.
+The modern way of building on MacOS is to make sure you have pcre2 installed and use brew.
 
-    brew install pcre
+    brew install pcre2
 
 And then build gsl as above:
 

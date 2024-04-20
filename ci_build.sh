@@ -48,7 +48,7 @@ case "$BUILD_TYPE" in
 
     [ -z "$CI_TIME" ] || echo "`date`: Builds completed without fatal errors!"
 
-    echo "=== What is the GSL binary linked against (note libpcre in particular)?"
+    echo "=== What is the GSL binary linked against (note libpcre2 in particular)?"
     if [ $TRAVIS_OS_NAME == "linux" ]; then
         ldd src/gsl || true
     elif [ $TRAVIS_OS_NAME == "osx" ]; then

@@ -6,7 +6,7 @@ Maintainer: GSL Developers <zeromq-dev@lists.zeromq.org>
 Architecture: any
 Standards-Version: 4.1.0
 Build-Depends: debhelper (>= 9),
- libpcre3-dev,
+ libpcre2-dev,
 Homepage: https://github.com/zeromq/gsl
 
 Files:

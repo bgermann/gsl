@@ -3,7 +3,7 @@ MAINTAINER Godefroid Chapelle <gotcha@bubblenet.be>
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update -y -q
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -q --force-yes build-essential
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -q --force-yes libpcre3-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -q --force-yes libpcre2-dev
 
 RUN mkdir /tmp/gsl
 COPY src /tmp/gsl/src

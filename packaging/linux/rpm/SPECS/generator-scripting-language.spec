@@ -9,7 +9,7 @@ License:	GPL-3.0-or-later
 Group:		Libraries
 Source0:	http://download.zeromq.org/%{name}-%{version}.tar.gz
 URL:		http://zeromq.org/
-BuildRequires:	pcre-devel
+BuildRequires:	pcre2-devel
 
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
