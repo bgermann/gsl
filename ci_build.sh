@@ -49,9 +49,9 @@ case "$BUILD_TYPE" in
     [ -z "$CI_TIME" ] || echo "`date`: Builds completed without fatal errors!"
 
     echo "=== What is the GSL binary linked against (note libpcre2 in particular)?"
-    if [ $TRAVIS_OS_NAME == "linux" ]; then
+    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
         ldd src/gsl || true
-    elif [ $TRAVIS_OS_NAME == "osx" ]; then
+    elif [ "$TRAVIS_OS_NAME" == "osx" ]; then
         otool -L src/gsl || true
     else
         echo "Unsupported platform $TRAVIS_OS_NAME"
